@@ -19,13 +19,17 @@ class ViewController: UIViewController {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
+        
+        let api = WeatherAPIWrapper()
+        api.getWeatherAt(location: "Hong Kong") { weatherResponse in
+            print(weatherResponse)
+        }
     }
 
     private func setupMap() {
         mapView.showsUserLocation = true
         
         guard let currentLocation = locationManager.location else { return }
-        print(currentLocation)
         let radiusInMeters: CLLocationDistance = 1000000
 
         // Set the region around user location
@@ -40,6 +44,8 @@ class ViewController: UIViewController {
 
 extension ViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        // Setup map region when location is updated
         setupMap()
     }
 }
+

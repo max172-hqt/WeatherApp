@@ -13,6 +13,7 @@
 		7967FAF529DE866500E57CBC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7967FAF329DE866500E57CBC /* Main.storyboard */; };
 		7967FAF729DE866700E57CBC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7967FAF629DE866700E57CBC /* Assets.xcassets */; };
 		7967FAFA29DE866700E57CBC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7967FAF829DE866700E57CBC /* LaunchScreen.storyboard */; };
+		7967FB0229DE932200E57CBC /* WeatherAPIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967FB0129DE932200E57CBC /* WeatherAPIWrapper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		7967FAF629DE866700E57CBC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7967FAF929DE866700E57CBC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7967FAFB29DE866700E57CBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7967FB0129DE932200E57CBC /* WeatherAPIWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAPIWrapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				7967FAED29DE866500E57CBC /* AppDelegate.swift */,
 				7967FAEF29DE866500E57CBC /* SceneDelegate.swift */,
 				7967FAF129DE866500E57CBC /* ViewController.swift */,
+				7967FB0129DE932200E57CBC /* WeatherAPIWrapper.swift */,
 				7967FAF329DE866500E57CBC /* Main.storyboard */,
 				7967FAF629DE866700E57CBC /* Assets.xcassets */,
 				7967FAF829DE866700E57CBC /* LaunchScreen.storyboard */,
@@ -141,6 +144,7 @@
 				7967FAF229DE866500E57CBC /* ViewController.swift in Sources */,
 				7967FAEE29DE866500E57CBC /* AppDelegate.swift in Sources */,
 				7967FAF029DE866500E57CBC /* SceneDelegate.swift in Sources */,
+				7967FB0229DE932200E57CBC /* WeatherAPIWrapper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
