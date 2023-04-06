@@ -66,8 +66,6 @@ class WeatherAPIWrapper {
         
         return response
     }
-    
-    
 }
 
 struct WeatherResponse: Decodable {
