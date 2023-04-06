@@ -88,4 +88,21 @@ struct Weather: Decodable {
 struct Condition: Decodable {
     let code: Int
     let text: String
+    
+    func getIcon() -> String {
+        switch code {
+        case 1000:
+            return "sun.max"
+        case 1003...1030:
+            return "cloud"
+        case 1180...1201:
+            return "cloud.rain"
+        case 1210...1225:
+            return "cloud.snow"
+        case 1273...1283:
+            return "cloud.bolt.rain"
+        default:
+            return ""
+        }
+    }
 }

@@ -11,42 +11,35 @@ import MapKit
 class ViewController: UIViewController {
     private let locationManager = CLLocationManager()
     private let api = WeatherAPIWrapper()
+    var locationItems: [LocationItem] = []
     
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        mapView.delegate = self
-        
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
+        locationManager.requestLocation()
+        
+        mapView.delegate = self
+        mapView.showsUserLocation = true
+        
+        tableView.dataSource = self
+        tableView.delegate = self
     }
 
-    private func setupMap() {
-        // mapView.showsUserLocation = true
-        
-        guard let currentLocation = locationManager.location else { return }
-        let locValue = currentLocation.coordinate
-        let locationString =  "\(locValue.latitude),\(locValue.longitude)"
+    private func panInMapAt(location: CLLocation) {
         let radiusInMeters: CLLocationDistance = 1000000
 
         // Set the region around user location
         let region = MKCoordinateRegion(
-            center: currentLocation.coordinate,
+            center: location.coordinate,
             latitudinalMeters: radiusInMeters,
             longitudinalMeters: radiusInMeters
         )
         mapView.setRegion(region, animated: true)
-        
-        // Get temperature and add the annotation
-        api.getWeatherAt(location: locationString) { weatherResponse in
-            self.addAnnotation(
-                location: currentLocation,
-                weatherResponse: weatherResponse
-            )
-        }
     }
     
     private func addAnnotation(location: CLLocation, weatherResponse: WeatherResponse) {
@@ -59,12 +52,23 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: CLLocationManagerDelegate {
-    func locationManager(
-        _ manager: CLLocationManager,
-        didUpdateLocations locations: [CLLocation]
-    ) {
-        // Setup map region when location is updated
-        setupMap()
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        // Pan in current user location and add to the list
+        if let location = locations.last {
+            panInMapAt(location: location)
+            let locValue = location.coordinate
+            let locationString =  "\(locValue.latitude),\(locValue.longitude)"
+            api.getWeatherAt(location: locationString) { weatherResponse in
+                self.addAnnotation(
+                    location: location,
+                    weatherResponse: weatherResponse
+                )
+            }
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
     }
 }
 
@@ -82,8 +86,35 @@ extension ViewController: MKMapViewDelegate {
         if let myAnnotation = annotation as? MyAnnotation {
             view.markerTintColor = myAnnotation.color
             view.glyphText = myAnnotation.tempCelsius
+            let image = UIImage(systemName: myAnnotation.iconName)
+            view.leftCalloutAccessoryView = UIImageView(image: image)
         }
         return view
+    }
+}
+
+extension ViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    }
+}
+
+extension ViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return locationItems.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell", for: indexPath)
+        var content = cell.defaultContentConfiguration()
+        let item = locationItems[indexPath.row]
+
+        content.text = item.title
+        content.secondaryText = item.description
+        content.image = UIImage(systemName: "cloud")
+        
+        cell.contentConfiguration = content
+        
+        return cell
     }
 }
 
@@ -112,6 +143,10 @@ class MyAnnotation: NSObject, MKAnnotation {
         }
     }
     
+    var iconName: String {
+        return weatherResponse.current.condition.getIcon()
+    }
+    
     var tempCelsius: String {
         return "\(weatherResponse.current.temp_c)"
     }
@@ -123,4 +158,10 @@ class MyAnnotation: NSObject, MKAnnotation {
         self.subtitle = "Current: \(weatherResponse.current.temp_c)C. Feels Like: \(weatherResponse.current.feelslike_c)C"
         super.init()
     }
+}
+
+struct LocationItem {
+    let location: CLLocation
+    let title: String
+    let description: String
 }
