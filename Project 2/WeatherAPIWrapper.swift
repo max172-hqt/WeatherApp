@@ -82,8 +82,10 @@ struct Weather: Decodable {
     let temp_c: Double
     let temp_f: Double
     let condition: Condition
+    let feelslike_c: Double
 }
 
 struct Condition: Decodable {
     let code: Int
+    let text: String
 }

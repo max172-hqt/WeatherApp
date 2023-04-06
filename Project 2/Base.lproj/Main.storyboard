@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uTl-BY-rkx">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="419"/>
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="462"/>
                                 <standardMapConfiguration key="preferredConfiguration"/>
                             </mapView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9DZ-iz-jgV">
@@ -28,10 +28,10 @@
                                 </items>
                             </toolbar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Z0x-cd-5CJ">
-                                <rect key="frame" x="0.0" y="419" width="393" height="350"/>
+                                <rect key="frame" x="0.0" y="470" width="393" height="299"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="350" id="w5T-WM-988"/>
+                                    <constraint firstAttribute="height" constant="299" id="w5T-WM-988"/>
                                 </constraints>
                             </tableView>
                         </subviews>
@@ -45,8 +45,8 @@
                             <constraint firstItem="9DZ-iz-jgV" firstAttribute="top" secondItem="Z0x-cd-5CJ" secondAttribute="bottom" id="OlE-P1-ffG"/>
                             <constraint firstItem="uTl-BY-rkx" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="UOe-Zo-Wad"/>
                             <constraint firstItem="Z0x-cd-5CJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ft3-aY-CfE"/>
-                            <constraint firstItem="Z0x-cd-5CJ" firstAttribute="top" secondItem="uTl-BY-rkx" secondAttribute="bottom" id="jX0-zO-47M"/>
-                            <constraint firstItem="Z0x-cd-5CJ" firstAttribute="top" secondItem="uTl-BY-rkx" secondAttribute="bottom" id="kjV-MA-Scn"/>
+                            <constraint firstItem="Z0x-cd-5CJ" firstAttribute="top" secondItem="uTl-BY-rkx" secondAttribute="bottom" constant="8" id="jX0-zO-47M"/>
+                            <constraint firstItem="Z0x-cd-5CJ" firstAttribute="top" secondItem="uTl-BY-rkx" secondAttribute="bottom" constant="8" id="kjV-MA-Scn"/>
                             <constraint firstItem="9DZ-iz-jgV" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="s1d-EV-13L"/>
                             <constraint firstAttribute="trailing" secondItem="Z0x-cd-5CJ" secondAttribute="trailing" id="sDZ-ti-KTG"/>
                         </constraints>
