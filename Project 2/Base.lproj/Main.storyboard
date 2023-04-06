@@ -1,24 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Map view configurations" minToolsVersion="14.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Project_2" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uTl-BY-rkx">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="419"/>
+                                <standardMapConfiguration key="preferredConfiguration"/>
+                            </mapView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9DZ-iz-jgV">
+                                <rect key="frame" x="0.0" y="769" width="393" height="49"/>
+                                <items>
+                                    <barButtonItem title="Item" id="AQn-Tf-Epz"/>
+                                </items>
+                            </toolbar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Z0x-cd-5CJ">
+                                <rect key="frame" x="0.0" y="419" width="393" height="350"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="350" id="w5T-WM-988"/>
+                                </constraints>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="9DZ-iz-jgV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="6EQ-eE-qbP"/>
+                            <constraint firstItem="uTl-BY-rkx" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="9az-rX-vxV"/>
+                            <constraint firstItem="9DZ-iz-jgV" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="AnE-dd-aIN"/>
+                            <constraint firstItem="uTl-BY-rkx" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="GpG-kb-fQr"/>
+                            <constraint firstItem="9DZ-iz-jgV" firstAttribute="top" secondItem="Z0x-cd-5CJ" secondAttribute="bottom" id="OlE-P1-ffG"/>
+                            <constraint firstItem="uTl-BY-rkx" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="UOe-Zo-Wad"/>
+                            <constraint firstItem="Z0x-cd-5CJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ft3-aY-CfE"/>
+                            <constraint firstItem="Z0x-cd-5CJ" firstAttribute="top" secondItem="uTl-BY-rkx" secondAttribute="bottom" id="jX0-zO-47M"/>
+                            <constraint firstItem="Z0x-cd-5CJ" firstAttribute="top" secondItem="uTl-BY-rkx" secondAttribute="bottom" id="kjV-MA-Scn"/>
+                            <constraint firstItem="9DZ-iz-jgV" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="s1d-EV-13L"/>
+                            <constraint firstAttribute="trailing" secondItem="Z0x-cd-5CJ" secondAttribute="trailing" id="sDZ-ti-KTG"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="mapView" destination="uTl-BY-rkx" id="SIz-uJ-x7j"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="130.53435114503816" y="-27.464788732394368"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
