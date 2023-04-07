@@ -65,6 +65,7 @@ class MainViewController: UIViewController {
     }
     
     // Called when click Save on AddLocationController
+    // Add location to the list and to the map and pan in to the location
     @IBAction func unwindFromDetailsViewController(_ sender: UIStoryboardSegue) {
         if sender.source is AddLocationController {
             if let destination = sender.source as? AddLocationController {
@@ -74,6 +75,7 @@ class MainViewController: UIViewController {
                     addAnnotation(location: location, weatherResponse: weatherResponse)
                     locationItems.append(LocationItem(location: location, weatherResponse: weatherResponse))
                     tableView.reloadData()
+                    panInMapAt(location: location)
                 }
             }
         }
@@ -106,7 +108,7 @@ extension MainViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         let status: CLAuthorizationStatus = locationManager.authorizationStatus
         if status == .authorizedAlways || status == .authorizedWhenInUse {
-            locationManager.startUpdatingLocation()
+            locationManager.requestLocation()
         }
     }
     
@@ -140,6 +142,7 @@ extension MainViewController: MKMapViewDelegate {
             let image = UIImage(systemName: myAnnotation.iconName)
             view.leftCalloutAccessoryView = UIImageView(image: image)
         }
+        
         return view
     }
     
@@ -211,11 +214,11 @@ class MyAnnotation: NSObject, MKAnnotation {
     }
     
     var iconName: String {
-        return weatherResponse.current.condition.getIcon()
+        return weatherResponse.conditionIconName
     }
     
     var tempCelsiusString: String {
-        return "\(weatherResponse.current.temp_c)"
+        return "\(weatherResponse.tempCelsius)"
     }
     
     init(coordinate: CLLocationCoordinate2D, weatherResponse: WeatherResponse) {
