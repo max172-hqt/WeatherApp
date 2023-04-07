@@ -20,6 +20,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         locationManager.delegate = self
+        
         let status: CLAuthorizationStatus = locationManager.authorizationStatus
         if status == .notDetermined {
             locationManager.requestWhenInUseAuthorization()
@@ -31,6 +32,7 @@ class ViewController: UIViewController {
         tableView.delegate = self
     }
 
+    // Set region for a location
     private func panInMapAt(location: CLLocation) {
         let radiusInMeters: CLLocationDistance = 1000000
 
@@ -53,6 +55,7 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: CLLocationManagerDelegate {
+    // Add an annotation when location is updated
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
             panInMapAt(location: location)
@@ -68,6 +71,7 @@ extension ViewController: CLLocationManagerDelegate {
         }
     }
     
+    // Start update location when permission is granted
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         let status: CLAuthorizationStatus = locationManager.authorizationStatus
         if status == .authorizedAlways || status == .authorizedWhenInUse {
@@ -81,6 +85,7 @@ extension ViewController: CLLocationManagerDelegate {
 }
 
 extension ViewController: MKMapViewDelegate {
+    // Create AnnotationView for an annotation
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         var view: MKMarkerAnnotationView
         let identifier = "locationAnnotation"
@@ -97,7 +102,6 @@ extension ViewController: MKMapViewDelegate {
             view.rightCalloutAccessoryView = button
 
             if let myAnnotation = annotation as? MyAnnotation {
-                print("change color")
                 view.markerTintColor = myAnnotation.color
                 view.glyphText = myAnnotation.tempCelsius
                 let image = UIImage(systemName: myAnnotation.iconName)
@@ -107,6 +111,7 @@ extension ViewController: MKMapViewDelegate {
         return view
     }
     
+    // Go to detail view when Callout Accessory Control is tapped
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         performSegue(withIdentifier: "DetailsViewSegue", sender: self)
     }
@@ -122,6 +127,7 @@ extension ViewController: UITableViewDataSource {
         return locationItems.count
     }
     
+    // TODO: Update the information
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell", for: indexPath)
         var content = cell.defaultContentConfiguration()
@@ -137,6 +143,7 @@ extension ViewController: UITableViewDataSource {
     }
 }
 
+// Customized annotation on the map
 class MyAnnotation: NSObject, MKAnnotation {
     var coordinate: CLLocationCoordinate2D
     var weatherResponse: WeatherResponse
