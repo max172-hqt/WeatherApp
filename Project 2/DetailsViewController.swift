@@ -30,12 +30,12 @@ class DetailsViewController: UIViewController {
             api.getWeatherForecastAt(location: locationString) { weatherResponse in
                 self.forecastItems = weatherResponse.forecast?.forecastday ?? []
                 DispatchQueue.main.async {
-                    self.locationLabel.text = weatherResponse.location.name
-                    self.weatherConditionImage.image = UIImage(systemName: weatherResponse.current.condition.getIcon())
-                    self.weatherConditionLabel.text = weatherResponse.current.condition.text
-                    self.currentTemperature.text = "\(weatherResponse.current.temp_c)°C"
-                    self.lowTemperature.text = "Low: \(weatherResponse.forecast?.forecastday[0].day.mintemp_c ?? 0)°C"
-                    self.highTemperature.text = "High: \(weatherResponse.forecast?.forecastday[0].day.maxtemp_c ?? 0)°C"
+                    self.locationLabel.text = weatherResponse.locationName
+                    self.weatherConditionImage.image = UIImage(systemName: weatherResponse.conditionIconName)
+                    self.weatherConditionLabel.text = weatherResponse.conditionText
+                    self.currentTemperature.text = "\(weatherResponse.tempCelsius)\(CELSIUS_UNIT)"
+                    self.lowTemperature.text = "Low: \(weatherResponse.lowCelsius ?? 0)\(CELSIUS_UNIT)"
+                    self.highTemperature.text = "High: \(weatherResponse.highCelsius ?? 0)\(CELSIUS_UNIT)"
                     self.tableView.reloadData()
                 }
             }
@@ -55,7 +55,7 @@ extension DetailsViewController: UITableViewDataSource {
         
         let index = Calendar.current.component(.weekday, from: getDate(from: item.date)!)
         content.text = Calendar.current.weekdaySymbols[index - 1]
-        content.secondaryText = "\(item.day.avgtemp_c)°C"
+        content.secondaryText = "\(item.day.avgtemp_c)\(CELSIUS_UNIT)"
         content.prefersSideBySideTextAndSecondaryText = true
         content.secondaryTextProperties.font = content.textProperties.font
         content.image = UIImage(systemName: item.day.condition.getIcon())

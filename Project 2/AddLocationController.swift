@@ -10,11 +10,7 @@ import MapKit
 
 class AddLocationController: UIViewController {
     let api = WeatherAPIWrapper()
-    var locationName: String?
     var location: CLLocation?
-    var temperature: Double?
-    var lowTemperature: Double?
-    var highTemperature: Double?
     var weatherResponse: WeatherResponse?
     
     @IBOutlet weak var temperatureLabel: UILabel!
@@ -33,18 +29,13 @@ class AddLocationController: UIViewController {
     @IBAction func onSearchButtonTapped(_ sender: UIButton) {
         let location = searchTextField.text
         api.getWeatherForecastAt(location: location) { weatherResponse in
+            self.location = CLLocation(latitude: weatherResponse.location.lat, longitude: weatherResponse.location.lon)
+            self.weatherResponse = weatherResponse
+            
             DispatchQueue.main.async {
-                self.weatherResponse = weatherResponse
-                self.temperatureLabel.text = "\(weatherResponse.current.temp_c)°C"
+                self.temperatureLabel.text = "\(weatherResponse.current.temp_c)\(CELSIUS_UNIT)"
                 self.locationLabel.text = weatherResponse.location.name
                 self.weatherConditionImage.image = UIImage(systemName: weatherResponse.current.condition.getIcon())
-                self.locationName = weatherResponse.location.name
-                self.location = CLLocation(latitude: weatherResponse.location.lat, longitude: weatherResponse.location.lon)
-                self.temperature = weatherResponse.current.temp_c
-                if let currentDayForecast = weatherResponse.forecast?.forecastday.first {
-                    self.lowTemperature = currentDayForecast.day.mintemp_c
-                    self.highTemperature = currentDayForecast.day.maxtemp_c
-                }
             }
         }
     }

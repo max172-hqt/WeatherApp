@@ -11,18 +11,6 @@ class WeatherAPIWrapper {
     let baseUrl = "https://api.weatherapi.com"
     let key = "key=e462f21382704519b8f175150231603"
     
-    // Get current weather at a location
-    public func getWeatherAt(
-        location: String?,
-        handler: @escaping (WeatherResponse) -> Void
-    ) {
-        guard let location = location else {
-            return;
-        }
-        let url = getCurrentURL(query: location)
-        getData(url: url, handler: handler)
-    }
-    
     // Get current weather and weather forecast at a location
     public func getWeatherForecastAt(
         location: String?,
@@ -62,19 +50,6 @@ class WeatherAPIWrapper {
         }
     }
     
-    // Get url for the current weather
-    private func getCurrentURL(query: String) -> URL? {
-        let currentEndpoint = "v1/current.json"
-        let query = "q=\(query)"
-        
-        guard let url = "\(baseUrl)/\(currentEndpoint)?\(key)&\(query)"
-            .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
-            return nil
-        }
-        
-        return URL(string: url)
-    }
-    
     // Get url for forecast
     private func getForecastURL(query: String) -> URL? {
         let currentEndpoint = "v1/forecast.json"
@@ -102,11 +77,45 @@ class WeatherAPIWrapper {
         return response
     }
 }
-
 struct WeatherResponse: Decodable {
     let location: Location
     let current: Weather
     let forecast: Forecast?
+    
+    // - MARK: Computed properties for common infomation
+    var locationName: String {
+        return location.name
+    }
+    
+    var conditionText: String {
+        return current.condition.text
+    }
+    
+    var conditionIconName: String {
+        return current.condition.getIcon()
+    }
+    
+    var tempCelsius: Double {
+        return current.temp_c
+    }
+    
+    var tempFeelLikeCelsius: Double {
+        return current.feelslike_c
+    }
+    
+    var highCelsius: Double? {
+        if let dayForecast = forecast?.forecastday.first {
+            return dayForecast.day.maxtemp_c
+        }
+        return nil
+    }
+    
+    var lowCelsius: Double? {
+        if let dayForecast = forecast?.forecastday.first {
+            return dayForecast.day.mintemp_c
+        }
+        return nil
+    }
 }
 
 struct Location: Decodable {
