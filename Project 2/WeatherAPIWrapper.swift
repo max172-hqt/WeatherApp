@@ -92,7 +92,7 @@ struct WeatherResponse: Decodable {
     }
     
     var conditionIconName: String {
-        return current.condition.getIcon()
+        return current.condition.iconName
     }
     
     var tempCelsius: Double {
@@ -136,20 +136,33 @@ struct Condition: Decodable {
     let code: Int
     let text: String
     
-    func getIcon() -> String {
+    var iconName: String {
         switch code {
         case 1000:
             return "sun.max"
-        case 1003...1030:
+        case 1003:
+            return "cloud.sun"
+        case 1006:
+            return "cloud.moon"
+        case 1009:
             return "cloud"
-        case 1180...1201:
-            return "cloud.rain"
-        case 1210...1225:
+        case 1030, 1135, 1147:
+            return "cloud.fog"
+        case 1063:
+            return "cloud.sun.rain"
+        case 1066, 1069, 1204, 1207...1225:
+            return "cloud.sleet"
+        case 1072:
+            return "cloud.drizzle"
+        case 1087:
+            return "cloud.bolt"
+        case 1114, 1117, 1237...1261:
             return "cloud.snow"
         case 1273...1283:
             return "cloud.bolt.rain"
         default:
-            return ""
+            print("missing", code, text)
+            return "sun.max"
         }
     }
 }

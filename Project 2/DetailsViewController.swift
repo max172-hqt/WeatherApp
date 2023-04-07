@@ -23,8 +23,9 @@ class DetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         tableView.dataSource = self
-        // Do any additional setup after loading the view.
+        
         if let locValue = currentCoordinate {
             let locationString =  "\(locValue.latitude),\(locValue.longitude)"
             api.getWeatherForecastAt(location: locationString) { weatherResponse in
@@ -58,7 +59,7 @@ extension DetailsViewController: UITableViewDataSource {
         content.secondaryText = "\(item.day.avgtemp_c)\(CELSIUS_UNIT)"
         content.prefersSideBySideTextAndSecondaryText = true
         content.secondaryTextProperties.font = content.textProperties.font
-        content.image = UIImage(systemName: item.day.condition.getIcon())
+        content.image = UIImage(systemName: item.day.condition.iconName)
         
         cell.contentConfiguration = content
         

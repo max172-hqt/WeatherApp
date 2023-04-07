@@ -29,13 +29,16 @@ class AddLocationController: UIViewController {
     @IBAction func onSearchButtonTapped(_ sender: UIButton) {
         let location = searchTextField.text
         api.getWeatherForecastAt(location: location) { weatherResponse in
-            self.location = CLLocation(latitude: weatherResponse.location.lat, longitude: weatherResponse.location.lon)
+            self.location = CLLocation(
+                latitude: weatherResponse.location.lat,
+                longitude: weatherResponse.location.lon
+            )
             self.weatherResponse = weatherResponse
             
             DispatchQueue.main.async {
                 self.temperatureLabel.text = "\(weatherResponse.current.temp_c)\(CELSIUS_UNIT)"
                 self.locationLabel.text = weatherResponse.location.name
-                self.weatherConditionImage.image = UIImage(systemName: weatherResponse.current.condition.getIcon())
+                self.weatherConditionImage.image = UIImage(systemName: weatherResponse.conditionIconName)
             }
         }
     }

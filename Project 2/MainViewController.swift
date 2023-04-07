@@ -9,6 +9,7 @@ import UIKit
 import MapKit
 
 let CELSIUS_UNIT = "°C"
+let RADIUS_IN_METERS: CLLocationDistance = 1000000
 
 class MainViewController: UIViewController {
     private let locationManager = CLLocationManager()
@@ -35,19 +36,17 @@ class MainViewController: UIViewController {
         tableView.delegate = self
     }
 
-    // Set region for a location
+    // Set region and pan in a location
     private func panInMapAt(location: CLLocation) {
-        let radiusInMeters: CLLocationDistance = 1000000
-
-        // Set the region around user location
         let region = MKCoordinateRegion(
             center: location.coordinate,
-            latitudinalMeters: radiusInMeters,
-            longitudinalMeters: radiusInMeters
+            latitudinalMeters: RADIUS_IN_METERS,
+            longitudinalMeters: RADIUS_IN_METERS
         )
         mapView.setRegion(region, animated: true)
     }
     
+    // Add an annotation to the mapView
     private func addAnnotation(location: CLLocation, weatherResponse: WeatherResponse) {
         let annotation = MyAnnotation(
             coordinate: location.coordinate,
@@ -57,6 +56,7 @@ class MainViewController: UIViewController {
         mapView.addAnnotation(annotation)
     }
     
+    // Prepare the coordinate before navigating to the Details View
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "DetailsViewSegue" {
             let destination = segue.destination as! DetailsViewController
@@ -80,11 +80,10 @@ class MainViewController: UIViewController {
             }
         }
     }
-    
 }
 
 extension MainViewController: CLLocationManagerDelegate {
-    // Add an annotation when location is updated
+    // Add an annotation when user location is updated
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
             panInMapAt(location: location)
@@ -92,10 +91,7 @@ extension MainViewController: CLLocationManagerDelegate {
             let locationString =  "\(locValue.latitude),\(locValue.longitude)"
             
             api.getWeatherForecastAt(location: locationString) { weatherResponse in
-                self.addAnnotation(
-                    location: location,
-                    weatherResponse: weatherResponse
-                )
+                self.addAnnotation(location: location,weatherResponse: weatherResponse)
                 self.locationItems.append(LocationItem(location: location, weatherResponse: weatherResponse))
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
@@ -156,10 +152,11 @@ extension MainViewController: MKMapViewDelegate {
 }
 
 extension MainViewController: UITableViewDelegate {
+    // Select on each cell and pan in the location
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         let item = locationItems[indexPath.row]
         panInMapAt(location: item.location)
-        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
@@ -168,6 +165,7 @@ extension MainViewController: UITableViewDataSource {
         return locationItems.count
     }
     
+    // Create view for each table cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell", for: indexPath)
         var content = cell.defaultContentConfiguration()
