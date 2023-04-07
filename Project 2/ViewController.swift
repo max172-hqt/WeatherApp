@@ -53,13 +53,6 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: CLLocationManagerDelegate {
-//    func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
-//        // Hide the user location annotation view to avoid overlapping with custom added annotation
-//        if let userLocation = mapView.view(for: mapView.userLocation) {
-//            userLocation.isHidden = true
-//        }
-//    }
-    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
             panInMapAt(location: location)
@@ -67,7 +60,6 @@ extension ViewController: CLLocationManagerDelegate {
             let locationString =  "\(locValue.latitude),\(locValue.longitude)"
             
             api.getWeatherAt(location: locationString) { weatherResponse in
-                print(weatherResponse)
                 self.addAnnotation(
                     location: location,
                     weatherResponse: weatherResponse
