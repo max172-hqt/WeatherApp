@@ -12,6 +12,7 @@ class ViewController: UIViewController {
     private let locationManager = CLLocationManager()
     private let api = WeatherAPIWrapper()
     var locationItems: [LocationItem] = []
+    var currentCoordinate: CLLocationCoordinate2D?
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var tableView: UITableView!
@@ -51,6 +52,13 @@ class ViewController: UIViewController {
             weatherResponse: weatherResponse
         )
         mapView.addAnnotation(annotation)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "DetailsViewSegue" {
+            let destination = segue.destination as! DetailsViewController
+            destination.currentCoordinate = self.currentCoordinate
+        }
     }
 }
 
@@ -113,6 +121,9 @@ extension ViewController: MKMapViewDelegate {
     
     // Go to detail view when Callout Accessory Control is tapped
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if let annotation = view.annotation as? MyAnnotation {
+            self.currentCoordinate = annotation.coordinate
+        }
         performSegue(withIdentifier: "DetailsViewSegue", sender: self)
     }
 }

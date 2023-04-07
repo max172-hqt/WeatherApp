@@ -168,6 +168,15 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="nxl-mV-OPa"/>
+                    <connections>
+                        <outlet property="currentTemperature" destination="I5P-I3-gtx" id="TFW-ma-ixE"/>
+                        <outlet property="highTemperature" destination="4ae-T5-51n" id="aUV-Hz-hWd"/>
+                        <outlet property="locationLabel" destination="3fI-Or-adH" id="CPy-i6-I7x"/>
+                        <outlet property="lowTemperature" destination="d7M-bX-93p" id="yh7-uZ-KfV"/>
+                        <outlet property="tableView" destination="LeL-kj-Qxj" id="dxM-6r-jwl"/>
+                        <outlet property="weatherConditionImage" destination="FXQ-JB-LSq" id="iXu-VJ-sVH"/>
+                        <outlet property="weatherConditionLabel" destination="3fI-Or-adH" id="yhQ-40-8Kk"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VhT-bZ-VNW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

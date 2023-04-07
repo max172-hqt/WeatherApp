@@ -155,4 +155,6 @@ struct ForecastDay: Decodable {
 struct Day: Decodable {
     let avgtemp_c: Double
     let condition: Condition
+    let maxtemp_c: Double
+    let mintemp_c: Double
 }
