@@ -15,6 +15,7 @@
 		7967FAFA29DE866700E57CBC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7967FAF829DE866700E57CBC /* LaunchScreen.storyboard */; };
 		7967FB0229DE932200E57CBC /* WeatherAPIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967FB0129DE932200E57CBC /* WeatherAPIWrapper.swift */; };
 		7967FB0429DF854900E57CBC /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967FB0329DF854900E57CBC /* DetailsViewController.swift */; };
+		79962B3429E07FC7009F9AFA /* AddLocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79962B3329E07FC7009F9AFA /* AddLocationController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		7967FAFB29DE866700E57CBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7967FB0129DE932200E57CBC /* WeatherAPIWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAPIWrapper.swift; sourceTree = "<group>"; };
 		7967FB0329DF854900E57CBC /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		79962B3329E07FC7009F9AFA /* AddLocationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocationController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +67,7 @@
 				7967FAF129DE866500E57CBC /* ViewController.swift */,
 				7967FB0129DE932200E57CBC /* WeatherAPIWrapper.swift */,
 				7967FAF329DE866500E57CBC /* Main.storyboard */,
+				79962B3329E07FC7009F9AFA /* AddLocationController.swift */,
 				7967FB0329DF854900E57CBC /* DetailsViewController.swift */,
 				7967FAF629DE866700E57CBC /* Assets.xcassets */,
 				7967FAF829DE866700E57CBC /* LaunchScreen.storyboard */,
@@ -144,6 +147,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79962B3429E07FC7009F9AFA /* AddLocationController.swift in Sources */,
 				7967FAF229DE866500E57CBC /* ViewController.swift in Sources */,
 				7967FAEE29DE866500E57CBC /* AppDelegate.swift in Sources */,
 				7967FAF029DE866500E57CBC /* SceneDelegate.swift in Sources */,

@@ -60,6 +60,16 @@ class ViewController: UIViewController {
             destination.currentCoordinate = self.currentCoordinate
         }
     }
+    
+    @IBAction func onAddButtonTapped(_ sender: UIBarButtonItem) {
+        // TODO: Perform segue
+        performSegue(withIdentifier: "AddLocationSegue", sender: self)
+    }
+    
+    @IBAction func unwindFromDetailsViewController(_ sender: UIStoryboardSegue) {
+        print("hello!")
+    }
+    
 }
 
 extension ViewController: CLLocationManagerDelegate {
@@ -109,12 +119,13 @@ extension ViewController: MKMapViewDelegate {
             let button = UIButton(type: .detailDisclosure)
             view.rightCalloutAccessoryView = button
 
-            if let myAnnotation = annotation as? MyAnnotation {
-                view.markerTintColor = myAnnotation.color
-                view.glyphText = myAnnotation.tempCelsius
-                let image = UIImage(systemName: myAnnotation.iconName)
-                view.leftCalloutAccessoryView = UIImageView(image: image)
-            }
+        }
+        
+        if let myAnnotation = annotation as? MyAnnotation {
+            view.markerTintColor = myAnnotation.color
+            view.glyphText = myAnnotation.tempCelsius
+            let image = UIImage(systemName: myAnnotation.iconName)
+            view.leftCalloutAccessoryView = UIImageView(image: image)
         }
         return view
     }

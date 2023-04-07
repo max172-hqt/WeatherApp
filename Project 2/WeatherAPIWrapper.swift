@@ -112,6 +112,8 @@ struct WeatherResponse: Decodable {
 struct Location: Decodable {
     let name: String
     let region: String
+    let lat: Double
+    let lon: Double
 }
 
 struct Weather: Decodable {
