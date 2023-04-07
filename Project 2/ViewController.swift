@@ -8,6 +8,8 @@
 import UIKit
 import MapKit
 
+let CELSIUS_UNIT = "°C"
+
 class ViewController: UIViewController {
     private let locationManager = CLLocationManager()
     private let api = WeatherAPIWrapper()
@@ -49,8 +51,12 @@ class ViewController: UIViewController {
     private func addAnnotation(location: CLLocation, weatherResponse: WeatherResponse) {
         let annotation = MyAnnotation(
             coordinate: location.coordinate,
-            weatherResponse: weatherResponse
+            tempCelsius: weatherResponse.current.temp_c,
+            tempFeelLikeCelsius: weatherResponse.current.feelslike_c,
+            iconName: weatherResponse.current.condition.getIcon(),
+            condition: weatherResponse.current.condition.text
         )
+        
         mapView.addAnnotation(annotation)
     }
     
@@ -61,13 +67,26 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func onAddButtonTapped(_ sender: UIBarButtonItem) {
-        // TODO: Perform segue
-        performSegue(withIdentifier: "AddLocationSegue", sender: self)
-    }
-    
     @IBAction func unwindFromDetailsViewController(_ sender: UIStoryboardSegue) {
-        print("hello!")
+        if sender.source is AddLocationController {
+            if let destination = sender.source as? AddLocationController {
+                if let locationName = destination.locationName,
+                   let location = destination.location,
+                   let lowTemperature = destination.lowTemperature,
+                   let highTemperature = destination.highTemperature,
+                   let temperature = destination.temperature,
+                   let weatherResponse = destination.weatherResponse
+                {
+                    let description = "\(temperature)\(CELSIUS_UNIT) (H: \(highTemperature)\(CELSIUS_UNIT), L: \(lowTemperature)\(CELSIUS_UNIT))"
+                    locationItems.append(LocationItem(location: location,
+                                                      title: locationName,
+                                                      description: description,
+                                                      iconName: weatherResponse.current.condition.getIcon()))
+                    tableView.reloadData()
+                    addAnnotation(location: location, weatherResponse: weatherResponse)
+                }
+            }
+        }
     }
     
 }
@@ -123,7 +142,7 @@ extension ViewController: MKMapViewDelegate {
         
         if let myAnnotation = annotation as? MyAnnotation {
             view.markerTintColor = myAnnotation.color
-            view.glyphText = myAnnotation.tempCelsius
+            view.glyphText = myAnnotation.tempCelsiusString
             let image = UIImage(systemName: myAnnotation.iconName)
             view.leftCalloutAccessoryView = UIImageView(image: image)
         }
@@ -141,6 +160,9 @@ extension ViewController: MKMapViewDelegate {
 
 extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let item = locationItems[indexPath.row]
+        panInMapAt(location: item.location)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
@@ -157,7 +179,7 @@ extension ViewController: UITableViewDataSource {
 
         content.text = item.title
         content.secondaryText = item.description
-        content.image = UIImage(systemName: "cloud")
+        content.image = UIImage(systemName: item.iconName)
         
         cell.contentConfiguration = content
         
@@ -168,14 +190,13 @@ extension ViewController: UITableViewDataSource {
 // Customized annotation on the map
 class MyAnnotation: NSObject, MKAnnotation {
     var coordinate: CLLocationCoordinate2D
-    var weatherResponse: WeatherResponse
+    var tempCelsius: Double
+    var iconName: String
     
     var title: String?
     var subtitle: String?
     
     var color: UIColor {
-        let tempCelsius = weatherResponse.current.temp_c
-        
         if tempCelsius < 0 {
             return #colorLiteral(red: 1, green: 0.2527923882, blue: 1, alpha: 1)
         } else if tempCelsius <= 11 {
@@ -191,19 +212,21 @@ class MyAnnotation: NSObject, MKAnnotation {
         }
     }
     
-    var iconName: String {
-        return weatherResponse.current.condition.getIcon()
+    var tempCelsiusString: String {
+        return "\(tempCelsius)"
     }
     
-    var tempCelsius: String {
-        return "\(weatherResponse.current.temp_c)"
-    }
-    
-    init(coordinate: CLLocationCoordinate2D, weatherResponse: WeatherResponse) {
+    init(coordinate: CLLocationCoordinate2D,
+         tempCelsius: Double,
+         tempFeelLikeCelsius: Double,
+         iconName: String,
+         condition: String
+    ) {
         self.coordinate = coordinate
-        self.weatherResponse = weatherResponse
-        self.title = weatherResponse.current.condition.text
-        self.subtitle = "Current: \(weatherResponse.current.temp_c)°C. Feels Like: \(weatherResponse.current.feelslike_c)°C"
+        self.title = condition
+        self.subtitle = "Current: \(tempCelsius)°C. Feels Like: \(tempFeelLikeCelsius)°C"
+        self.iconName = iconName
+        self.tempCelsius = tempCelsius
         super.init()
     }
 }
@@ -212,4 +235,5 @@ struct LocationItem {
     let location: CLLocation
     let title: String
     let description: String
+    let iconName: String
 }

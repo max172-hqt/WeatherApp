@@ -6,12 +6,16 @@
 //
 
 import UIKit
+import MapKit
 
 class AddLocationController: UIViewController {
     let api = WeatherAPIWrapper()
     var locationName: String?
-    var latitude: Double?
-    var longitude: Double?
+    var location: CLLocation?
+    var temperature: Double?
+    var lowTemperature: Double?
+    var highTemperature: Double?
+    var weatherResponse: WeatherResponse?
     
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var weatherConditionImage: UIImageView!
@@ -28,29 +32,20 @@ class AddLocationController: UIViewController {
     
     @IBAction func onSearchButtonTapped(_ sender: UIButton) {
         let location = searchTextField.text
-        api.getWeatherAt(location: location) { weatherResponse in
+        api.getWeatherForecastAt(location: location) { weatherResponse in
             DispatchQueue.main.async {
+                self.weatherResponse = weatherResponse
                 self.temperatureLabel.text = "\(weatherResponse.current.temp_c)°C"
                 self.locationLabel.text = weatherResponse.location.name
                 self.weatherConditionImage.image = UIImage(systemName: weatherResponse.current.condition.getIcon())
                 self.locationName = weatherResponse.location.name
-                self.latitude = weatherResponse.location.lat
-                self.longitude = weatherResponse.location.lon
+                self.location = CLLocation(latitude: weatherResponse.location.lat, longitude: weatherResponse.location.lon)
+                self.temperature = weatherResponse.current.temp_c
+                if let currentDayForecast = weatherResponse.forecast?.forecastday.first {
+                    self.lowTemperature = currentDayForecast.day.mintemp_c
+                    self.highTemperature = currentDayForecast.day.maxtemp_c
+                }
             }
         }
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
