@@ -8,7 +8,7 @@
 import UIKit
 import MapKit
 
-class AddLocationController: UIViewController {
+class AddLocationController: UIViewController, UITextFieldDelegate {
     let api = WeatherAPIWrapper()
     var location: CLLocation?
     var weatherResponse: WeatherResponse?
@@ -20,6 +20,7 @@ class AddLocationController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchTextField.delegate = self
     }
     
     @IBAction func onCancelButtonTapped(_ sender: UIBarButtonItem) {
@@ -27,6 +28,18 @@ class AddLocationController: UIViewController {
     }
     
     @IBAction func onSearchButtonTapped(_ sender: UIButton) {
+        updateWeather()
+    }
+    
+    // - MARK: Text field delegate
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.endEditing(true)
+        updateWeather()
+        return true
+    }
+    
+    // Update weather information for the current location in text field
+    private func updateWeather() {
         let location = searchTextField.text
         api.getWeatherForecastAt(location: location) { weatherResponse in
             self.location = CLLocation(
