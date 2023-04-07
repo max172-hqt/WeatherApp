@@ -181,7 +181,7 @@ class MyAnnotation: NSObject, MKAnnotation {
         self.coordinate = coordinate
         self.weatherResponse = weatherResponse
         self.title = weatherResponse.current.condition.text
-        self.subtitle = "Current: \(weatherResponse.current.temp_c)C. Feels Like: \(weatherResponse.current.feelslike_c)C"
+        self.subtitle = "Current: \(weatherResponse.current.temp_c)°C. Feels Like: \(weatherResponse.current.feelslike_c)°C"
         super.init()
     }
 }

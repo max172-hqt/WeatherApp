@@ -8,6 +8,10 @@
 import Foundation
 
 class WeatherAPIWrapper {
+    let baseUrl = "https://api.weatherapi.com"
+    let key = "key=e462f21382704519b8f175150231603"
+    
+    // Get current weather at a location
     public func getWeatherAt(
         location: String?,
         handler: @escaping (WeatherResponse) -> Void
@@ -15,8 +19,24 @@ class WeatherAPIWrapper {
         guard let location = location else {
             return;
         }
-        
-        let url = getURL(query: location)
+        let url = getCurrentURL(query: location)
+        getData(url: url, handler: handler)
+    }
+    
+    // Get current weather and weather forecast at a location
+    public func getWeatherForecastAt(
+        location: String?,
+        handler: @escaping (WeatherResponse) -> Void
+    ) {
+        guard let location = location else {
+            return;
+        }
+        let url = getForecastURL(query: location)
+        getData(url: url, handler: handler)
+    }
+    
+    // Get data from an url
+    private func getData(url: URL?, handler: @escaping (WeatherResponse) -> Void) {
         let session = URLSession.shared
         
         if let url {
@@ -42,10 +62,9 @@ class WeatherAPIWrapper {
         }
     }
     
-    private func getURL(query: String) -> URL? {
-        let baseUrl = "https://api.weatherapi.com"
+    // Get url for the current weather
+    private func getCurrentURL(query: String) -> URL? {
         let currentEndpoint = "v1/current.json"
-        let key = "key=e462f21382704519b8f175150231603"
         let query = "q=\(query)"
         
         guard let url = "\(baseUrl)/\(currentEndpoint)?\(key)&\(query)"
@@ -55,7 +74,21 @@ class WeatherAPIWrapper {
         
         return URL(string: url)
     }
+    
+    // Get url for forecast
+    private func getForecastURL(query: String) -> URL? {
+        let currentEndpoint = "v1/forecast.json"
+        let query = "q=\(query)"
+        
+        guard let url = "\(baseUrl)/\(currentEndpoint)?\(key)&\(query)&days=7"
+            .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+            return nil
+        }
+        
+        return URL(string: url)
+    }
 
+    // Parse WeatherResponse json data
     private func parseJson(data: Data) -> WeatherResponse? {
         let decoder = JSONDecoder()
         var response: WeatherResponse?
@@ -73,6 +106,7 @@ class WeatherAPIWrapper {
 struct WeatherResponse: Decodable {
     let location: Location
     let current: Weather
+    let forecast: Forecast?
 }
 
 struct Location: Decodable {
@@ -107,4 +141,18 @@ struct Condition: Decodable {
             return ""
         }
     }
+}
+
+struct Forecast: Decodable {
+    let forecastday: [ForecastDay]
+}
+
+struct ForecastDay: Decodable {
+    let date: String
+    let day: Day
+}
+
+struct Day: Decodable {
+    let avgtemp_c: Double
+    let condition: Condition
 }

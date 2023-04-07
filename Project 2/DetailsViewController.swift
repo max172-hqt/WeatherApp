@@ -8,11 +8,15 @@
 import UIKit
 
 class DetailsViewController: UIViewController {
+    let api = WeatherAPIWrapper()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        api.getWeatherForecastAt(location: "Hong Kong") { weatherResponse in
+            print(weatherResponse)
+        }
     }
     
 
