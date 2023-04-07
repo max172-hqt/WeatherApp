@@ -33,6 +33,8 @@ class WeatherAPIWrapper {
                 
                 if let weatherResponse = self.parseJson(data: data) {
                     handler(weatherResponse)
+                } else {
+                    print("error")
                 }
             }
             

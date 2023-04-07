@@ -20,11 +20,12 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.requestLocation()
+        let status: CLAuthorizationStatus = locationManager.authorizationStatus
+        if status == .notDetermined {
+            locationManager.requestWhenInUseAuthorization()
+        }
         
         mapView.delegate = self
-        mapView.showsUserLocation = true
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -52,13 +53,21 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: CLLocationManagerDelegate {
+//    func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
+//        // Hide the user location annotation view to avoid overlapping with custom added annotation
+//        if let userLocation = mapView.view(for: mapView.userLocation) {
+//            userLocation.isHidden = true
+//        }
+//    }
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        // Pan in current user location and add to the list
         if let location = locations.last {
             panInMapAt(location: location)
             let locValue = location.coordinate
             let locationString =  "\(locValue.latitude),\(locValue.longitude)"
+            
             api.getWeatherAt(location: locationString) { weatherResponse in
+                print(weatherResponse)
                 self.addAnnotation(
                     location: location,
                     weatherResponse: weatherResponse
@@ -67,29 +76,47 @@ extension ViewController: CLLocationManagerDelegate {
         }
     }
     
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        let status: CLAuthorizationStatus = locationManager.authorizationStatus
+        if status == .authorizedAlways || status == .authorizedWhenInUse {
+            locationManager.startUpdatingLocation()
+        }
+    }
+    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print(error)
+        print("Error \(error)")
     }
 }
 
 extension ViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        let identifier = "currentLocationAnnotation"
-        let view: MKMarkerAnnotationView
-        view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-        view.canShowCallout = true;
-        view.calloutOffset = CGPoint(x: 0, y: 10)
-        
-        let button = UIButton(type: .detailDisclosure)
-        view.rightCalloutAccessoryView = button
-        
-        if let myAnnotation = annotation as? MyAnnotation {
-            view.markerTintColor = myAnnotation.color
-            view.glyphText = myAnnotation.tempCelsius
-            let image = UIImage(systemName: myAnnotation.iconName)
-            view.leftCalloutAccessoryView = UIImageView(image: image)
+        var view: MKMarkerAnnotationView
+        let identifier = "locationAnnotation"
+
+        if let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView {
+            view = annotationView
+            view.annotation = annotation
+        } else {
+            view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            view.canShowCallout = true;
+            view.calloutOffset = CGPoint(x: 0, y: 10)
+
+            let button = UIButton(type: .detailDisclosure)
+            view.rightCalloutAccessoryView = button
+
+            if let myAnnotation = annotation as? MyAnnotation {
+                print("change color")
+                view.markerTintColor = myAnnotation.color
+                view.glyphText = myAnnotation.tempCelsius
+                let image = UIImage(systemName: myAnnotation.iconName)
+                view.leftCalloutAccessoryView = UIImageView(image: image)
+            }
         }
         return view
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        performSegue(withIdentifier: "DetailsViewSegue", sender: self)
     }
 }
 

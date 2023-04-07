@@ -64,11 +64,28 @@
                     <connections>
                         <outlet property="mapView" destination="uTl-BY-rkx" id="SIz-uJ-x7j"/>
                         <outlet property="tableView" destination="Z0x-cd-5CJ" id="mLa-7s-zBV"/>
+                        <segue destination="I5q-Ua-w8k" kind="show" identifier="DetailsViewSegue" id="Jpb-dp-hCw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="130.53435114503816" y="-27.464788732394368"/>
+        </scene>
+        <!--Details View Controller-->
+        <scene sceneID="JVh-fS-EP0">
+            <objects>
+                <viewController storyboardIdentifier="DetailsView" id="I5q-Ua-w8k" customClass="DetailsViewController" customModule="Project_2" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="PsN-xb-MLz">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="783"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="398-pP-dD0"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="nxl-mV-OPa"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VhT-bZ-VNW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1068" y="-27"/>
         </scene>
     </scenes>
     <resources>
