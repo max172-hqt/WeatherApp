@@ -42,6 +42,10 @@ class DetailsViewController: UIViewController {
             }
         }
     }
+    
+    @IBAction func onCancelButtonTapped(_ sender: UIBarButtonItem) {
+        dismiss(animated: true)
+    }
 }
 
 extension DetailsViewController: UITableViewDataSource {

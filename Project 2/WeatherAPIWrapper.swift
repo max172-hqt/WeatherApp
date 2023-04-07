@@ -150,6 +150,8 @@ struct Condition: Decodable {
             return "cloud.fog"
         case 1063:
             return "cloud.sun.rain"
+        case 1150...1201:
+            return "cloud.rain"
         case 1066, 1069, 1204, 1207...1225:
             return "cloud.sleet"
         case 1072:

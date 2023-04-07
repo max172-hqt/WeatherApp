@@ -85,14 +85,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="783"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rxw-sL-D6c">
-                                <rect key="frame" x="196.66666666666666" y="75" width="0.0" height="0.0"/>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aPC-im-fqS">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="56"/>
+                                <items>
+                                    <navigationItem title="Location Details" id="d0T-bW-tG3">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="xdf-58-fd9">
+                                            <connections>
+                                                <action selector="onCancelButtonTapped:" destination="I5q-Ua-w8k" id="hz7-eU-api"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rxw-sL-D6c">
+                                <rect key="frame" x="116" y="72" width="161" height="48"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="9G0-0N-Ihd">
-                                <rect key="frame" x="119" y="293" width="155" height="50"/>
+                                <rect key="frame" x="119" y="338" width="155" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d7M-bX-93p">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -109,7 +121,7 @@
                                 </subviews>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="LeL-kj-Qxj">
-                                <rect key="frame" x="0.0" y="351" width="393" height="432"/>
+                                <rect key="frame" x="0.0" y="396" width="393" height="387"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="forecastCell" id="9hu-J3-1R8">
@@ -123,7 +135,7 @@
                                 </prototypes>
                             </tableView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="pjl-F8-G5e" userLabel="Temp">
-                                <rect key="frame" x="42.666666666666657" y="91" width="308" height="178"/>
+                                <rect key="frame" x="42.666666666666657" y="136" width="308" height="178"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="sHa-Ek-K7R">
                                         <rect key="frame" x="0.0" y="0.0" width="150" height="178"/>
@@ -162,12 +174,15 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="LeL-kj-Qxj" firstAttribute="trailing" secondItem="398-pP-dD0" secondAttribute="trailing" id="4Zh-mI-GJr"/>
+                            <constraint firstAttribute="trailing" secondItem="aPC-im-fqS" secondAttribute="trailing" id="5A0-Pa-s20"/>
                             <constraint firstItem="9G0-0N-Ihd" firstAttribute="centerX" secondItem="PsN-xb-MLz" secondAttribute="centerX" id="6J2-JD-Crv"/>
+                            <constraint firstItem="aPC-im-fqS" firstAttribute="leading" secondItem="PsN-xb-MLz" secondAttribute="leading" id="7jP-6i-377"/>
                             <constraint firstItem="Rxw-sL-D6c" firstAttribute="centerX" secondItem="PsN-xb-MLz" secondAttribute="centerX" id="Dl0-Qx-YvZ"/>
+                            <constraint firstItem="aPC-im-fqS" firstAttribute="top" secondItem="PsN-xb-MLz" secondAttribute="top" id="NDz-Fp-77W"/>
+                            <constraint firstItem="Rxw-sL-D6c" firstAttribute="top" secondItem="aPC-im-fqS" secondAttribute="bottom" constant="16" id="QhY-hN-FYe"/>
                             <constraint firstItem="398-pP-dD0" firstAttribute="bottom" secondItem="LeL-kj-Qxj" secondAttribute="bottom" id="ZAR-fY-91e"/>
                             <constraint firstItem="pjl-F8-G5e" firstAttribute="top" secondItem="Rxw-sL-D6c" secondAttribute="bottom" constant="16" id="ckY-Gq-xmQ"/>
                             <constraint firstItem="LeL-kj-Qxj" firstAttribute="leading" secondItem="398-pP-dD0" secondAttribute="leading" id="e7a-NB-jVd"/>
-                            <constraint firstItem="Rxw-sL-D6c" firstAttribute="top" secondItem="398-pP-dD0" secondAttribute="top" constant="16" id="lcL-dH-Uob"/>
                             <constraint firstItem="pjl-F8-G5e" firstAttribute="centerX" secondItem="PsN-xb-MLz" secondAttribute="centerX" id="rMO-FU-9Vq"/>
                             <constraint firstItem="9G0-0N-Ihd" firstAttribute="top" secondItem="pjl-F8-G5e" secondAttribute="bottom" constant="24" id="vD9-zM-hTS"/>
                             <constraint firstItem="LeL-kj-Qxj" firstAttribute="top" secondItem="9G0-0N-Ihd" secondAttribute="bottom" constant="8" id="yof-xD-08F"/>
@@ -199,7 +214,7 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kj1-ny-fjw">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="56"/>
                                 <items>
-                                    <navigationItem title="Title" id="bBU-Wg-ioQ">
+                                    <navigationItem title="Add Location" id="bBU-Wg-ioQ">
                                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="OBs-g8-gZJ">
                                             <connections>
                                                 <action selector="onCancelButtonTapped:" destination="KdB-9d-9QO" id="WJ2-uY-WEo"/>
@@ -279,7 +294,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MrV-Ic-mU1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="3GA-Rp-00x" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1056" y="723"/>
+            <point key="canvasLocation" x="1995" y="707"/>
         </scene>
     </scenes>
     <resources>
