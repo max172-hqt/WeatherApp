@@ -77,6 +77,7 @@ class WeatherAPIWrapper {
         return response
     }
 }
+
 struct WeatherResponse: Decodable {
     let location: Location
     let current: Weather
