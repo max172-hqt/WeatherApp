@@ -86,14 +86,14 @@ extension MainViewController: CLLocationManagerDelegate {
     // Add an annotation when user location is updated
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
-            panInMapAt(location: location)
             let locValue = location.coordinate
             let locationString =  "\(locValue.latitude),\(locValue.longitude)"
             
             api.getWeatherForecastAt(location: locationString) { weatherResponse in
-                self.addAnnotation(location: location,weatherResponse: weatherResponse)
-                self.locationItems.append(LocationItem(location: location, weatherResponse: weatherResponse))
                 DispatchQueue.main.async {
+                    self.panInMapAt(location: location)
+                    self.addAnnotation(location: location,weatherResponse: weatherResponse)
+                    self.locationItems.append(LocationItem(location: location, weatherResponse: weatherResponse))
                     self.tableView.reloadData()
                 }
             }
