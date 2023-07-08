@@ -9,7 +9,7 @@ import Foundation
 
 class WeatherAPIWrapper {
     let baseUrl = "https://api.weatherapi.com"
-    let key = "key=e462f21382704519b8f175150231603"
+    let key = "Your own key"
     
     // Get current weather and weather forecast at a location
     public func getWeatherForecastAt(
